@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" ng-app="painel">
 <head>
     <meta charset="UTF-8">
-    <title>Gerenciar Atendimento</title>
+    <title>Gerenciar Atendimentos</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/justified-nav.css" rel="stylesheet">
+    <script src="js/angular.min.js"></script>
+    <script src="assets/mainCore.js"></script>
+    <script src="assets/mainService.js"></script>
+    <script src="assets/mainController.js"></script>
 </head>
 <body>
+<div class="container">
+    <div class="masthead">
+        <div class="col-md-6"><img src="img/logo_cabecalho.png" style="width: 50%"></div>
+        <div class="col-md-6" align="right" ng-controller="usuarioController" ng-init="validarUsuario()"><br/>{{nomeUsuario}} <button class="btn" style="background-color: #18bc9c; color: white" ng-click="deslogarUsuario()">SAIR </button></div>
+        <div class="clearfix"></div>
+        <br/>
+        <nav>
+            <ul class="nav nav-justified">
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="menu_adm.html">INÍCIO</a></li>
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="usuarios_adm.html">USUÁRIOS</a></li>
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="guiches_adm.html">GUICHÊS</a></li>
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="atendimento_adm.html">ATENDIMENTOS</a></li>
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="painel_adm.html">PAINEL</a></li>
+            </ul>
+        </nav>
+    </div>
+    <h2 align="center">Gerenciar Tipos de Atendimentos</h2>
+    <div ng-controller="atendimentoController">
+        <div class="col-md-3">
+            <h3 align="center">Cadastro de Atendimentos</h3>
+            <form>
+                Nome:<input class="form-control" type="text" placeholder="Nome.." ng-model="tipoAtendimento.nome"><br/>
+                Descrição:<textarea class="form-control" placeholder="Descrição.." ng-model="tipoAtendimento.descricao"></textarea><br/>
 
+                <p style="color: red">{{resposta}}</p>
+                <button class="btn" style="background-color: #18bc9c; color: white" ng-click="salvarTipoAtendimento()">SALVAR</button>
+            </form>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8" ng-init="buscarTiposAtendimento()">
+            <h3 align="center">Lista de Atendimentos</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>NOME</th>
+                        <th>DESCRIÇÃO</th>
+                        <th>LETRA DE SENHA</th>
+                        <th>EDITAR</th>
+                        <th>EXCLUIR</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="at in atendimentos">
+                        <td>{{at.nome}}</td>
+                        <td>{{at.descricao}}</td>
+                        <td>{{at.letra}}</td>
+                        <td><a ng-click="editarTipoAtendimento(at)">Editar Dados</a></td>
+                        <td><a ng-click="removerTipoAtendimento(at)">Excluir Tipo Atendimento</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

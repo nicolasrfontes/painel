@@ -1,10 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" ng-app="painel">
 <head>
     <meta charset="UTF-8">
     <title>Gerenciar Usuários</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/justified-nav.css" rel="stylesheet">
+    <script src="js/angular.min.js"></script>
+    <script src="assets/mainCore.js"></script>
+    <script src="assets/mainService.js"></script>
+    <script src="assets/mainController.js"></script>
 </head>
 <body>
-
+<div class="container">
+    <div class="masthead">
+        <div class="col-md-6"><img src="img/logo_cabecalho.png" style="width: 50%"></div>
+        <div class="col-md-6" align="right" ng-controller="usuarioController" ng-init="validarUsuario()"><br/>{{nomeUsuario}} <button class="btn" style="background-color: #18bc9c; color: white" ng-click="deslogarUsuario()">SAIR </button></div>
+        <div class="clearfix"></div>
+        <br/>
+        <nav>
+            <ul class="nav nav-justified">
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="menu_adm.html">INÍCIO</a></li>
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="usuarios_adm.html">USUÁRIOS</a></li>
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="guiches_adm.html">GUICHÊS</a></li>
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="atendimento_adm.html">ATENDIMENTOS</a></li>
+                <li class="active"><a style="background-color: #18bc9c; color: white" href="painel_adm.html">PAINEL</a></li>
+            </ul>
+        </nav>
+    </div>
+    <h2 align="center">Gerenciar Usuários</h2>
+    <div ng-controller="usuarioController">
+        <div class="col-md-3">
+            <h3 align="center">Cadastro de Usuário</h3>
+            <form>
+                Nome:<input class="form-control" type="text" placeholder="Nome.." ng-model="usuario.nome"><br/>
+                Login:<input class="form-control" type="text" placeholder="Login.." ng-model="usuario.login"><br/>
+                Senha:<input class="form-control" type="text" placeholder="Senha.." ng-model="usuario.senha"><br/>
+                Tipo:<select class="form-control" ng-model="usuario.tipo">
+                    <option>Administrador</option>
+                    <option>Atendente</option>
+                    <option>Painel</option>
+                    <option>Senha</option>
+                </select><br/>
+                <p style="color: red">{{resposta}}</p>
+                <button class="btn" style="background-color: #18bc9c; color: white" ng-click="salvarUsuario()">SALVAR</button>
+            </form>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-8" ng-init="buscarUsuarios()">
+            <h3 align="center">Lista de Usuários</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>NOME</th>
+                        <th>LOGIN</th>
+                        <th>SENHA</th>
+                        <th>TIPO</th>
+                        <th>EDITAR</th>
+                        <th>EXCLUIR</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="usuario in usuarios">
+                        <td>{{usuario.nome}}</td>
+                        <td>{{usuario.login}}</td>
+                        <td>{{usuario.senha}}</td>
+                        <td>{{usuario.tipo}}</td>
+                        <td><a ng-click="editarUsuario(usuario)">Editar Dados</a></td>
+                        <td><a ng-click="excluirUsuario(usuario)">Excluir Usuário</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

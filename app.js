@@ -6,7 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var usuario = require('./routes/usuario');
+var guiche = require('./routes/guiche');
+var atendimento = require('./routes/atendimento');
 
 var app = express();
 
@@ -23,8 +25,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.post('/fazerlogin',usuario.fazerlogin);
+app.post('/salvarUsuario',usuario.salvarUsuario);
+app.post('/removerUsuario',usuario.removerUsuario);
+app.get('/buscarUsuarios',usuario.buscarUsuarios);
 
+app.post('/salvarGuiche', guiche.salvarGuiche);
+app.post('/removerGuiche', guiche.removerGuiche);
+app.get('/buscarGuiches', guiche.buscarGuiches);
+
+app.post('/salvarTipoAtendimento', atendimento.salvarTipoAtendimento);
+app.post('/removerTipoAtendimento', atendimento.removerTipoAtendimento);
+app.get('/buscarTiposAtendimento', atendimento.buscarTiposAtendimento);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

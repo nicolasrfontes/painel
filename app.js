@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var usuario = require('./routes/usuario');
 var guiche = require('./routes/guiche');
 var atendimento = require('./routes/atendimento');
+var upload = require('./routes/upload');
 
 var app = express();
 
@@ -37,6 +38,17 @@ app.get('/buscarGuiches', guiche.buscarGuiches);
 app.post('/salvarTipoAtendimento', atendimento.salvarTipoAtendimento);
 app.post('/removerTipoAtendimento', atendimento.removerTipoAtendimento);
 app.get('/buscarTiposAtendimento', atendimento.buscarTiposAtendimento);
+app.get('/buscarInformacoes', atendimento.buscarInformacoes);
+app.get('/buscarAnuncioPrincipal', atendimento.buscarAnuncioPrincipal);
+app.post('/salvarAnuncioVideo',atendimento.salvarAnuncioVideo);
+app.post('/salvarInformacoes',atendimento.salvarInformacoes);
+
+app.use('/uploadlogo/:logo', upload.uploadlogo);
+app.use('/uploadfundo/:fundo', upload.uploadfundo);
+app.use('/uploadanuncio/:anuncio', upload.uploadanuncio);
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

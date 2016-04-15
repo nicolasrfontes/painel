@@ -13,15 +13,21 @@ exports.fazerlogin = function(req,res){
         if ((login.loginUsuario=='suporteinfomafila')||(login.senhaUsuario=='informasuportefila')){
             var objeto = {
                 nome: 'Suporte InformaFila',
-                tipo: 1
+                tipo: 'Administrador'
             }
             res.send({status:2,objeto:objeto});
         }else{
-            db.collection('usuario_painel').findOne({'loginUsuario':login.loginUsuario,'senhaUsuario':login.senhaUsuario}, function(err,usuario){
+            db.collection('usuario').findOne({'loginUsuario':login.loginUsuario,'senhaUsuario':login.senhaUsuario}, function(err,usuario){
                 if ((usuario==null)||(usuario==undefined)){
                     res.send({status:1,resposta:'Login/Senha Incorretos'});
                 }else{
-                    res.send({status:2,objeto:usuario});
+                    var novoUsuario = {
+                        id: usuario._id,
+                        nome: usuario.nomeUsuario,
+                        senha: usuario.senhaUsuario,
+                        tipo: usuario.tipoUsuario
+                    }
+                    res.send({status:2,objeto:novoUsuario});
                 }
             })
         }

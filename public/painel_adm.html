@@ -28,7 +28,92 @@
         </nav>
     </div>
     <h2 align="center">Gerenciar Painel</h2>
+    <div class="col-md-4" style="border: solid; height: 200px">
+        <div class="col-md-12">
+            <h3 align="center">Logo</h3>
+            <p align="center"><small>Recomendado: 300x100</small></p>
+            <div ng-controller="uploadController">
+                <div class="col-md-12">
+                    <p align="left"></p><input type="file" file-model="logo"/>
+                    <br/>
+                    <button style="background-color: #18bc9c; color: white" class="btn" ng-click="uploadLogo()">SALVAR LOGO</button>
+                    <br/><br/>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" style="border: solid; height: 200px">
+        <div class="col-md-12">
+            <h3 align="center">Imagem de Fundo</h3>
+            <p align="center"><small>Recomendado: 1920x1680</small></p>
+            <div ng-controller="uploadController">
+                <div class="col-md-12">
+                    <p align="left"></p><input type="file" file-model="fundo"/>
+                    <br/>
+                    <button style="background-color: #18bc9c; color: white" class="btn" ng-click="uploadFundo()">SALVAR FUNDO</button>
+                    <br/><br/>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" style="border: solid; height: 200px">
+        <div class="col-md-12">
+            <h3 align="center">Anúncio Principal</h3>
+            <form ng-controller="atendimentoController">
+                <select class="form-control" ng-model="tipoAnuncio" ng-change="mudarTipoAnuncio(tipoAnuncio)">
+                    <option ng-repeat="anuncio in tipoanuncio" ng-selected="tipoanuncio">{{anuncio}}</option>
+                </select>
+                <div id="video" style="display: none">
+                    <br/>
+                    <input type="text" placeholder="Digite a URL do vídeo" ng-model="urlVideo" class="form-control">
+                    <p></p>
+                    <p><button style="background-color: #18bc9c; color: white" class="btn" ng-click="salvarAnuncioVideo()">SALVAR ANUNCIO</button></p>
+                </div>
+                <div id="imagem" style="display: none" ng-controller="uploadController">
+                    <br/>
+                    <input type="file" file-model="fundo"/>
+                    <p></p>
+                    <button style="background-color: #18bc9c; color: white" class="btn" ng-click="uploadAnuncioPrincipal()">SALVAR ANUNCIO</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="clearfix"></div>
+    <br/>
+    <div class="col-md-2"></div>
+    <div class="col-md-4" style="border: solid; height: 280px">
+        <div class="col-md-12" ng-controller="atendimentoController" ng-init="buscarInformacoes()">
+            <h3 align="center">Informações Adicionais</h3>
+            <form>
+                <input type="text" placeholder="Linha 01" class="form-control" ng-model="linha1"><br/>
+                <input type="text" placeholder="Linha 02" class="form-control" ng-model="linha2"><br/>
+                <input type="text" placeholder="Linha 03" class="form-control" ng-model="linha3"><br/>
+                <button style="background-color: #18bc9c; color: white" class="btn" ng-click="salvarInformacoes()">SALVAR INFORMAÇÕES</button>
+            </form>
 
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="col-md-4" style="border: solid; height: 280px">
+        <div class="col-md-12">
+            <h3 align="center">Propagandas</h3>
+            <form>
+                01:<input type="file" file-model="fundo"/>
+                02: <input type="file" file-model="fundo"/>
+                03: <input type="file" file-model="fundo"/><br/><br/>
+                <button style="background-color: #18bc9c; color: white" class="btn" ng-click="salvarPropagandas()">SALVAR PROPAGANDAS</button>
+            </form>
+
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+    <div class="clearfix"></div>
+    <hr/>
+    <p align="center"><a href="painel.html"><button class="btn btn-lg" style="background-color: #18bc9c; color: white">VER PAINEL</button></a></p>
 </div>
 </body>
 </html>

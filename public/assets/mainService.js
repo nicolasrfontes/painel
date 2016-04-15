@@ -38,6 +38,41 @@ angular.module('mainService', [])
             },
             removerTipoAtendimento: function(tipo){
                 return $http.post('/removerTipoAtendimento',tipo);
+            },
+            salvarAnuncioVideo: function(url){
+                return $http.post('/salvarAnuncioVideo',url);
+            },
+            salvarInformacoes: function(info){
+                return $http.post('/salvarInformacoes', info);
+            },
+            buscarInformacoes: function(){
+                return $http.get('/buscarInformacoes');
+            },
+            buscarAnuncioPrincipal: function(){
+                return $http.get('/buscarAnuncioPrincipal');
             }
         }
+    }])
+    .factory('uploadService',['$http', function($http){
+        return {
+            uploadLogo: function(file){
+                var fd = new FormData();
+                var nome = 'logo';
+                fd.append('file', file);
+                return $http.post('/uploadlogo/'+nome,fd,{transformRequest: angular.identity,headers: {'Content-Type': undefined}});
+            },
+            uploadFundo: function(file){
+                var fd = new FormData();
+                var nome = 'fundo';
+                fd.append('file', file);
+                return $http.post('/uploadfundo/'+nome,fd,{transformRequest: angular.identity,headers: {'Content-Type': undefined}});
+            },
+            uploadAnuncioPrincipal: function(file){
+                var fd = new FormData();
+                var nome = 'anuncio';
+                fd.append('file', file);
+                return $http.post('/uploadanuncio/'+nome,fd,{transformRequest: angular.identity,headers: {'Content-Type': undefined}});
+            }
+        }
+
     }])

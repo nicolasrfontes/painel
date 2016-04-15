@@ -10,29 +10,26 @@
     <script src="assets/mainService.js"></script>
     <script src="assets/mainController.js"></script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script>
-        function imprimir(tipo){
-            alert(tipo);
-        }
-    </script>
 </head>
 <body style="font-family: Candara">
 <div class="container">
     <div class="masthead">
         <div class="col-md-6"><br/><br/><img src="img/logo_cabecalho.png" style="width: 50%"></div>
-        <div class="col-md-6" align="right"><img src="images/logo.png" style="width: 300px; height: 100px"></div>
+        <div class="col-md-6" align="right"><img src="img/logo.png" style="width: 100px; height: 100px"></div>
         <div class="clearfix"></div>
         <br/>
         <hr/>
     </div>
     <h2 align="center">SELECIONE O ATENDIMENTO PARA IMPRIMIR</h2>
     <div ng-controller="atendimentoController" ng-init="buscarTiposAtendimento()">
-        <div class="col-md-4" ng-repeat="at in atendimentos" align="center">
+        <div class="col-md-12" ng-repeat="at in atendimentos" align="center">
             <div class="col-md-1"></div>
-            <div ng-click="imprimirSenha('{{at.nome}}')" class="col-md-10" style="background-color: #18bc9c; color: white; height: 150px; border-radius: 30px;">
-                <h2>{{at.nome}}</h2><h2><i class="glyphicon glyphicon-print"></i></h2>
+            <div ng-click="imprimirSenha('{{at.nome}}')" class="col-md-10" style="background-color: #18bc9c; color: white; border-radius: 30px">
+                <h1>{{at.nome}} <i class="glyphicon glyphicon-print"></i></h1>
             </div>
             <div class="col-md-1"></div>
+            <div class="clearfix"></div>
+            <br/>
 
         </div>
     </div>

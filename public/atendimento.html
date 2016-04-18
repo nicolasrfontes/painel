@@ -1,10 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br" ng-app="painel">
 <head>
     <meta charset="UTF-8">
     <title>Atendimento</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/justified-nav.css" rel="stylesheet">
+    <script src="js/angular.min.js"></script>
+    <script src="assets/mainCore.js"></script>
+    <script src="assets/mainService.js"></script>
+    <script src="assets/mainController.js"></script>
 </head>
-<body>
+<body style="font-family: Candara">
+<div class="container">
+    <div class="masthead">
+        <div class="col-md-6"><img src="img/logo_cabecalho.png" style="width: 50%"></div>
+        <div class="col-md-6" align="right" ng-controller="usuarioController" ng-init="validarUsuario()"><br/>{{nomeUsuario}}
+            <button class="btn" style="background-color: #18bc9c; color: white" ng-click="deslogarUsuario()">SAIR
+            </button>
+        </div>
+        <div class="clearfix"></div>
+        <br/>
+        <nav style="height: 10px;background-color: #18bc9c">
+            <ul class="nav nav-justified">
 
+            </ul>
+        </nav>
+    </div>
+    <h2 align="center">Menu do Atendente</h2>
+
+    <div align="center" id="selecaoGuiche">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" ng-controller="guicheController" align="left">
+            <h4>Selecione o guichê: <select ng-model="atendenteGuiche" class="form-control" ng-init="buscarGuiches()">
+                <option ng-repeat="g in guiches">{{g.nome}}</option>
+            </select></h4>
+            <button type="submit" class="btn" style="background-color: #18bc9c; color: white"
+                    ng-click="entrarAtendente()">ENTRAR
+            </button>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div id="atendimento" ng-controller="atendimentoController" ng-init="carregarAtendente()">
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <h4><b>Atendente:</b> {{nomeAtendente}}</h4>
+
+        </div>
+        <div class="col-md-3">
+            <h4><b>Guichê: </b>{{guicheAtendente}}</h4><a href="" ng-click="mudarGuiche()">Mudar Guichê</a>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="clearfix"></div>
+        <hr/>
+        <h3 align="center"><b>ATENDIMENTO DE SENHAS</b></h3>
+        <h4 align="center" ng-init="buscarSenhasAguardando()">Senha em atendimento: <b>{{senhaAtendendo}}</b></h4>
+        <br/>
+        <div class="col-md-3" ng-repeat="s in senhas">
+            <div class="col-md-11">
+                <h4 align="center"><b>{{s.categoria}} <br/> {{s.senhas.length}}</b></h4>
+                <p align="center"><button class="btn" ng-click="proximoAtendimento({{s}})">PRÓXIMO</button></p>
+                <div class="table-responsive">
+                    <table class="table" style="background-color: #18bc9c; color: white">
+                        <thead>
+                        <tr>
+                            <th>SENHA</th>
+                            <th>ATENDER</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="ss in s.senhas">
+                            <td style="background-color: white; color: #18bc9c">{{ss.senha}}</td>
+                            <td style="background-color: white; color: #18bc9c"><a style="color: #18bc9c" ng-click="atenderAleatorio(ss)">ATENDER</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="clearfix"></div>
+        <hr/>
+        <p align="center"><button class="btn" onclick="javascript: location.reload()" style="background-color: #18bc9c; color: white">ATUALIZAR LISTAS</button></p>
+    </div>
+</div>
 </body>
 </html>

@@ -40,8 +40,13 @@ app.post('/removerTipoAtendimento', atendimento.removerTipoAtendimento);
 app.get('/buscarTiposAtendimento', atendimento.buscarTiposAtendimento);
 app.get('/buscarInformacoes', atendimento.buscarInformacoes);
 app.get('/buscarAnuncioPrincipal', atendimento.buscarAnuncioPrincipal);
+app.get('/buscarSenhasAguardando', atendimento.buscarSenhasAguardando);
+app.get('/buscarSenhasAtendimento', atendimento.buscarSenhasAtendimento);
 app.post('/salvarAnuncioVideo',atendimento.salvarAnuncioVideo);
 app.post('/salvarInformacoes',atendimento.salvarInformacoes);
+app.post('/novoAtendimento',atendimento.novoAtendimento);
+app.post('/realizarAtendimento',atendimento.realizarAtendimento);
+app.post('/buscarNovoAtendimento',atendimento.buscarNovoAtendimento);
 
 app.use('/uploadlogo/:logo', upload.uploadlogo);
 app.use('/uploadfundo/:fundo', upload.uploadfundo);

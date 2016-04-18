@@ -50,6 +50,21 @@ angular.module('mainService', [])
             },
             buscarAnuncioPrincipal: function(){
                 return $http.get('/buscarAnuncioPrincipal');
+            },
+            novoAtendimento: function(atendimento){
+                return $http.post('/novoAtendimento',atendimento);
+            },
+            buscarSenhasAguardando: function(){
+                return $http.get('/buscarSenhasAguardando');
+            },
+            realizarAtendimento: function(senha){
+                return $http.post('/realizarAtendimento',senha);
+            },
+            buscarSenhasAtendimento: function(){
+                return $http.get('/buscarSenhasAtendimento');
+            },
+            buscarNovoAtendimento: function(senhas){
+                return $http.post('/buscarNovoAtendimento',senhas);
             }
         }
     }])

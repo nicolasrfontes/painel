@@ -109,6 +109,14 @@ angular.module('mainController', [])
         $scope.editarGuiche = function(guiche){
             $scope.guiche = guiche;
         }
+        $scope.entrarAtendente = function(){
+            if ($scope.atendenteGuiche!=''){
+                localStorage.setItem('guicheAtendente',$scope.atendenteGuiche);
+                location.reload();
+            }else{
+                alert('Preencha o Guichê')
+            }
+        }
     }])
     .controller('atendimentoController',['$scope','$http','atendimentoService',function($scope,$http,atendimentoService){
         $scope.tipoAtendimento = {
@@ -155,9 +163,11 @@ angular.module('mainController', [])
             $scope.tipoAtendimento = tipo;
         }
         $scope.imprimirSenha = function(tipo){
-            ///// salvar senha (buscar a ultima e subir 1 numero)
+            atendimentoService.novoAtendimento(tipo)
+                .success(function(retorno){
+                    location.reload();
+                })
             ///// comando para impressão
-            alert(tipo);
         }
         $scope.mudarTipoAnuncio = function(anuncio){
             if (anuncio=='Imagem'){
@@ -218,6 +228,98 @@ angular.module('mainController', [])
                     }
                 })
         }
+        $scope.carregarAtendente = function(){
+            $scope.guicheAtendente = localStorage.getItem("guicheAtendente");
+            if (($scope.guicheAtendente==null)||($scope.guicheAtendente=='')){
+                document.getElementById('selecaoGuiche').style.display = 'block';
+                document.getElementById('atendimento').style.display = 'none';
+            }else{
+                document.getElementById('selecaoGuiche').style.display = 'none';
+                document.getElementById('atendimento').style.display = 'block';
+                var usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+                $scope.senhaAtendendo = localStorage.getItem('senhaAtendendo');
+
+                $scope.nomeAtendente = usuario.nome;
+            }
+
+        }
+        $scope.buscarSenhasAguardando = function(){
+            atendimentoService.buscarSenhasAguardando()
+                .success(function(retorno){
+                    $scope.senhas = retorno;
+                    console.log(retorno);
+                })
+        }
+        $scope.proximoAtendimento = function(at){
+            if (at.senhas.length==0){
+                alert('Não há senhas nessa categoria');
+            }else{
+                var senha = at.senhas[0];
+                senha.guiche = $scope.guicheAtendente;
+                senha.atendente = $scope.nomeAtendente;
+                senha.status = 'Atendendo';
+                atendimentoService.realizarAtendimento(senha)
+                    .success(function(retorno){
+                        localStorage.setItem('senhaAtendendo',senha.senha);
+                        location.reload();
+                    })
+            }
+        }
+        $scope.atenderAleatorio = function(senha){
+            senha.guiche = $scope.guicheAtendente;
+            senha.atendente = $scope.nomeAtendente;
+            senha.status = 'Atendendo';
+            atendimentoService.realizarAtendimento(senha)
+                .success(function(retorno){
+                    localStorage.setItem('senhaAtendendo',senha.senha);
+                    location.reload();
+                })
+        }
+        $scope.mudarGuiche = function(){
+            document.getElementById('atendimento').style.display = 'none';
+            document.getElementById('selecaoGuiche').style.display = 'block';
+        }
+        function ordenarSenhas(a,b) {
+            if (a.guiche < b.guiche)
+                return -1;
+            else if (a.guiche > b.guiche)
+                return 1;
+            else
+                return 0;
+        }
+        $scope.buscarSenhasAtendimento = function(){
+            atendimentoService.buscarSenhasAtendimento()
+                .success(function(retorno){
+                    $scope.senhas = retorno.sort(ordenarSenhas);
+                    localStorage.setItem('senhasAtendendo',JSON.stringify($scope.senhas));
+                })
+        }
+
+
+
+    }])
+    .controller('painelController',['$scope','$http','atendimentoService',function($scope,$http,atendimentoService){
+        $scope.buscarNovoAtendimento = function(){
+            $scope.$apply(function() {
+                var senhas = JSON.parse(localStorage.getItem('senhasAtendendo'));
+                var objeto = {senha:senhas};
+                atendimentoService.buscarNovoAtendimento(objeto)
+                    .success(function(retorno){
+                        if (retorno.resposta=='1'){
+                            localStorage.setItem('novaSenha',JSON.stringify(retorno.objeto));
+                            location.reload()
+                        }else{
+                            console.log('nao');
+                        }
+                    })
+            });
+        }
+        $scope.buscarNovaSenha = function(){
+            var senha = JSON.parse(localStorage.getItem('novaSenha'));
+            $scope.novoGuiche = senha.guiche;
+            $scope.novaSenha = senha.senha;
+        }
+        setInterval($scope.buscarNovoAtendimento, 3000);
     }])
     .directive('fileModel', ['$parse', function ($parse) {
         return {

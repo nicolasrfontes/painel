@@ -12,6 +12,16 @@
     <script src="assets/mainController.js"></script>
 </head>
 <body ng-controller="atendimentoController" style="background-image: url('images/fundo.png'); font-family: Candara">
+<div style="display: none">
+    <audio id="audio1" style="width:25%" controls>Canvas not supported</audio>
+</div>
+
+<script type="text/javascript">
+    // Create a couple of global variables to use.
+    var audioElm = document.getElementById("audio1"); // Audio element
+    audioElm.src = 'audio.mp3';
+    audioElm.play();
+</script>
 <div class="col-md-1"></div>
 <div class="col-md-10">
     <div id="cabecalho" class=" jumbotron" style="background-color: white; border-radius: 30px">
@@ -32,24 +42,24 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-md-6">
+    <div class="col-md-6" ng-controller="painelController" ng-init="buscarNovaSenha()">
         <h1 align="center" style="color: white">NOVO ATENDIMENTO</h1>
         <div class="col-md-12" style="background-color: white; border-radius: 30px">
             <h1 align="center">SENHA:</h1>
-            <h1 style="font-family: alex_brushregular" align="center">123456</h1>
+            <h1 style="font-family: alex_brushregular" align="center">{{novaSenha}}</h1>
         </div>
         <div class="clearfix"></div>
         <hr/>
         <div class="col-md-12" style="background-color: white; border-radius: 30px">
             <h1 align="center">GUICHÊ:</h1>
-            <h1 style="font-family: alex_brushregular" align="center">Guichê 01</h1>
+            <h1 style="font-family: alex_brushregular" align="center">{{novoGuiche}}</h1>
         </div>
     </div>
     <div class="col-md-6" ng-init="buscarAnuncioPrincipal()">
         <div class="col-md-1"></div>
         <div id="imagem" class="col-md-11" style="background-color: white; border-radius: 30px; height: 370px" align="center">
             <br/>
-            <img src="images/anuncio.png" style="width: 600px; height: 330px">
+            <img src="images/anuncio.png" style="width: 90%; height: 330px">
         </div>
         <div id="video" class="col-md-11" style="background-color: white; border-radius: 30px;" align="center">
             <br/>
@@ -58,33 +68,13 @@
     </div>
     <div class="clearfix"></div>
     <hr/>
-    <div id="atendendo" ng-controller="guicheController" ng-init="buscarGuiches()">
+    <div id="atendendo" ng-controller="atendimentoController" ng-init="buscarSenhasAtendimento()">
         <h1 align="center" style="color: white">SENHAS EM ATENDIMENTO</h1>
-        <!--<div class="row row-horizon">
-            <div class="col-md-3" ng-repeat="gui in guiches" align="center">
-                <div class="col-md-1"></div>
-                <div style="background-color: white; border-radius: 30px" class="col-md-10">
-                    <h1 style="font-family: alex_brushregular">{{gui.nome}}</h1>
-                    <h1 style="font-family: alex_brushregular">X0000</h1>
-                </div>
-                <div class="col-md-1"></div>
-
-            </div>
-            <div class="col-md-3" ng-repeat="gui in guiches" align="center">
-                <div class="col-md-1"></div>
-                <div style="background-color: white; border-radius: 30px" class="col-md-10">
-                    <h1 style="font-family: alex_brushregular">{{gui.nome}}</h1>
-                    <h1 style="font-family: alex_brushregular">X0000</h1>
-                </div>
-                <div class="col-md-1"></div>
-
-            </div>
-        </div>-->
-        <div class="col-md-3" ng-repeat="gui in guiches" align="center">
+        <div class="col-md-3" ng-repeat="s in senhas" align="center">
             <div class="col-md-1"></div>
             <div style="background-color: white; border-radius: 30px" class="col-md-10">
-                <h1 style="font-family: alex_brushregular">{{gui.nome}}</h1>
-                <h1 style="font-family: alex_brushregular">X0000</h1>
+                <h1 style="font-family: alex_brushregular">{{s.guiche}}</h1>
+                <h1 style="font-family: alex_brushregular">{{s.senha}}</h1>
             </div>
             <div class="col-md-1"></div>
 

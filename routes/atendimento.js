@@ -125,11 +125,101 @@ exports.buscarInformacoes = function (req, res) {
     })
 }
 
+exports.novoAtendimento = function(req,res){
+    var dia = new Date().getDate();
+    if (dia<10){dia = '0'+dia;}
+    var mes = new Date().getMonth()+1;
+    if (mes<10){mes = '0'+mes;}
+    var ano = new Date().getFullYear();
+    var objeto = {
+        data: dia+'/'+mes+'/'+ano,
+        atendente: '',
+        senha: req.body.letra+req.body.proxima,
+        guiche: '',
+        status: 'Aguardando',
+        tipoatendimento:req.body.nome
+    };
+    db.collection('senha').insert(objeto, function(err){
+        var proxima = (parseInt(req.body.proxima)+1).toString();
+        if (proxima.length==1){
+            proxima = '000'+proxima;
+        }
+        if (proxima.length==2){proxima = '00'+proxima;}
+        if (proxima.length==3){proxima = '0'+proxima;}
+        if (proxima==9999){proxima = '0001';}
+        db.collection('tipoatendimento').update({'_id':ObjectID(req.body.id)},{$set:{'proximaSenha':proxima}}, function(err){
+            res.send('ok');
+        })
+    })
+}
 
+exports.buscarSenhasAguardando = function(req,res){
+    db.collection('tipoatendimento').find().toArray(function(err,tipos){
+        db.collection('senha').find({'status':'Aguardando'}).toArray(function(err,senhas){
+            var listaSenhas = [];
+            tipos.forEach(function(item){
+                var objeto = {
+                    categoria: item.nomeTipoAtendimento,
+                    senhas: []
+                }
+                for(var i=0;i<senhas.length;i++){
+                    if (item.nomeTipoAtendimento==senhas[i].tipoatendimento){
+                        objeto.senhas.push(senhas[i]);
+                    }
+                }
+                listaSenhas.push(objeto);
+            })
+            res.send(listaSenhas)
+        })
+    })
+};
 
+exports.buscarSenhasAtendimento = function(req,res){
+    db.collection('senha').find({'status':'Atendendo'}).toArray(function(err,senhas){
+        res.send(senhas);
+    })
+}
 
+exports.realizarAtendimento = function(req,res){
+    db.collection('senha').findOne({'guiche':req.body.guiche,'status':'Atendendo'}, function(err,senha){
+        if (senha!=null){
+            db.collection('senha').update({'_id':ObjectID(senha._id)},{$set:{'status':'Atendido'}}, function(err){
+                db.collection('senha').update({'_id':ObjectID(req.body._id)},{$set:{'atendente':req.body.atendente,'guiche':req.body.guiche,'status':'Atendendo'}}, function(err){
+                    res.send('ok');
+                })
+            })
+        }else{
+            db.collection('senha').update({'_id':ObjectID(req.body._id)},{$set:{'atendente':req.body.atendente,'guiche':req.body.guiche,'status':'Atendendo'}}, function(err){
+                res.send('ok');
+            })
+        }
+    })
+};
 
-
+exports.buscarNovoAtendimento = function(req,res){
+    var novas = req.body.senha;
+    db.collection('senha').find({'status':'Atendendo'}).toArray(function(err,senhas){
+        var teve = '';
+        var objeto;
+        senhas.forEach(function(item){
+            var tem = '';
+            for(var i=0;i<novas.length;i++){
+                if ((item.senha==novas[i].senha)&&(item.guiche==novas[i].guiche)&&(item.status==novas[i].status)){
+                    tem = 'ok';
+                }
+            }
+            if (tem==''){
+                teve = 'teve';
+                objeto = item;
+            }
+        })
+        if (teve==''){
+            res.send({resposta: '2'});
+        }else{
+            res.send({resposta:'1',objeto:objeto});
+        }
+    })
+}
 
 
 

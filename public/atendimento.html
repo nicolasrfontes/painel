@@ -15,12 +15,12 @@
     <div class="masthead">
         <div class="col-md-6"><img src="img/logo_cabecalho.png" style="width: 50%"></div>
         <div class="col-md-6" align="right" ng-controller="usuarioController" ng-init="validarUsuario()"><br/>{{nomeUsuario}}
-            <button class="btn" style="background-color: #18bc9c; color: white" ng-click="deslogarUsuario()">SAIR
+            <button class="btn" style="background-color: #711955; color: white" ng-click="deslogarUsuario()">SAIR
             </button>
         </div>
         <div class="clearfix"></div>
         <br/>
-        <nav style="height: 10px;background-color: #18bc9c">
+        <nav style="height: 10px;background-color: #711955">
             <ul class="nav nav-justified">
 
             </ul>
@@ -34,7 +34,7 @@
             <h4>Selecione o guichê: <select ng-model="atendenteGuiche" class="form-control" ng-init="buscarGuiches()">
                 <option ng-repeat="g in guiches">{{g.nome}}</option>
             </select></h4>
-            <button type="submit" class="btn" style="background-color: #18bc9c; color: white"
+            <button type="submit" class="btn" style="background-color: #711955; color: white"
                     ng-click="entrarAtendente()">ENTRAR
             </button>
         </div>
@@ -61,7 +61,7 @@
                 <h4 align="center"><b>{{s.categoria}} <br/> {{s.senhas.length}}</b></h4>
                 <p align="center"><button class="btn" ng-click="proximoAtendimento({{s}})">PRÓXIMO</button></p>
                 <div class="table-responsive">
-                    <table class="table" style="background-color: #18bc9c; color: white">
+                    <table class="table" style="background-color: #711955; color: white">
                         <thead>
                         <tr>
                             <th>SENHA</th>
@@ -70,8 +70,8 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="ss in s.senhas">
-                            <td style="background-color: white; color: #18bc9c">{{ss.senha}}</td>
-                            <td style="background-color: white; color: #18bc9c"><a style="color: #18bc9c" ng-click="atenderAleatorio(ss)">ATENDER</a></td>
+                            <td style="background-color: white; color: #711955">{{ss.senha}}</td>
+                            <td style="background-color: white; color: #711955"><a style="color: #711955" ng-click="atenderAleatorio(ss)">ATENDER</a></td>
                         </tr>
                         </tbody>
                     </table>
@@ -81,7 +81,7 @@
         </div>
         <div class="clearfix"></div>
         <hr/>
-        <p align="center"><button class="btn" onclick="javascript: location.reload()" style="background-color: #18bc9c; color: white">ATUALIZAR LISTAS</button></p>
+        <p align="center"><button class="btn" onclick="javascript: location.reload()" style="background-color: #711955; color: white">ATUALIZAR LISTAS</button></p>
     </div>
 </div>
 </body>
